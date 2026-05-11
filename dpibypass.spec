@@ -1,7 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
 import glob
 import os
+import sys
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+
+IS_LINUX = sys.platform == 'linux'
 
 ctk_datas  = collect_data_files('customtkinter')
 ctk_hidden = collect_submodules('customtkinter')
@@ -54,12 +57,12 @@ block_cipher = None
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=_tcltk_bins(),
-    datas=ctk_datas + _tcltk_datas(),
+    binaries=_tcltk_bins() if IS_LINUX else [],
+    datas=ctk_datas + (_tcltk_datas() if IS_LINUX else []),
     hiddenimports=ctk_hidden + ['_tkinter', 'PIL._imagingtk', 'pystray'],
     hookspath=[],
     hooksconfig={},
-    runtime_hooks=['_tcl_hook.py'],
+    runtime_hooks=['_tcl_hook.py'] if IS_LINUX else [],
     excludes=['PyQt6', 'PyQt5', 'PySide2', 'PySide6'],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
@@ -79,7 +82,7 @@ exe = EXE(
     name='dpibypass',
     debug=False,
     bootloader_ignore_signals=False,
-    strip=True,
+    strip=IS_LINUX,
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
