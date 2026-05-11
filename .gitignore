@@ -7,7 +7,6 @@ __pycache__/
 dist/
 build/
 *.egg
-vless_router.py
 _tcl_hook.py
 
 # Venv
@@ -19,7 +18,6 @@ env/
 dist/
 build/
 *.spec.bak
-*.spec
 
 # Xray generated config not using this now
 .xray_config.json

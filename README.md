@@ -1,6 +1,7 @@
-# DPI Bypass — SOCKS5-прокси с GUI ТОЛЬКО для LINUX (p.s тестировался на cachyos с ядром 7.0.5-2-cachyos)
+# DPI Bypass — SOCKS5-прокси с GUI Теперь кроссплатформенный(Windows + Linux)
+# Тесты проводились на cachyos с ядром linux 7.0.5-2-cachyos и на Win10
 
-Пользовательский SOCKS5-прокси для Linux, который обходит DPI-блокировки путём
+Пользовательский SOCKS5-прокси, который обходит DPI-блокировки путём
 фрагментации TCP, разбивки TLS-записей и рандомизации регистра HTTP-заголовка `Host`.
 Предназначен для разблокировки YouTube и аналогичных сервисов. Рут не нужен. 
 
@@ -11,7 +12,11 @@
 
 ```bash
 python3 -m venv .venv
+# для линукса
 source .venv/bin/activate
+# для винды
+.venv\Scripts\activate
+#общая
 pip install -r requirements.txt
 ```
 
@@ -82,10 +87,8 @@ kernel-модулей.
 ## Блокировка QUIC
 
 Браузеры предпочитают HTTP/3 (QUIC/UDP) там, где он доступен. SOCKS5-прокси
-UDP не перехватывает. Включи **Block QUIC (UDP 443)** в Settings — прокси
-поставит правило `iptables OUTPUT -p udp --dport 443 -j REJECT`, браузер
-откатится на TCP/TLS и будет проходить через прокси. Нужен `sudo` без пароля
-или `pkexec`.
+UDP не перехватывает. Включи **Block QUIC (UDP 443)** в Settings - прокси откатит
+браузер на TCP/TLS и будет проходить через прокси.
 
 ## Настройки
 
@@ -103,9 +106,13 @@ UDP не перехватывает. Включи **Block QUIC (UDP 443)** в Se
 ## Сборка бинарника
 
 ```bash
+#для линукса
 source .venv/bin/activate
+#для винды
+.venv\Scripts\activate
+#общая
 pip install pyinstaller
-pyinstaller dpibypass.spec --clean
+pyinstaller dpibypass.spec --clean # в зависимости от ос соберет executable для линукса или .exe для винды
 ```
 
 Бинарник появится в `dist/dpibypass`. Скопируй рядом `fragmentthis.txt` со
@@ -113,9 +120,9 @@ pyinstaller dpibypass.spec --clean
 
 ## Файлы
 
-- `main.py` — PyQt6 GUI, трей, настройки
+- `main.py` — CTK GUI, трей, настройки
 - `proxy.py` — SOCKS5-сервер + движок обхода DPI
-- `quic_blocker.py` — блокировка UDP/443 через iptables
+- `quic_blocker.py` — блокировка UDP/443
 - `fragmentthis.txt` — список доменов для обхода (один домен в строке)
 - `dpibypass.spec` — конфиг PyInstaller
 - `requirements.txt` — Python-зависимости
