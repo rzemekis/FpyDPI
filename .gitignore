@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Venv
+.venv/
+venv/
+env/
+
+# PyInstaller output
+dist/
+build/
+*.spec.bak
+
+# Xray generated config not using this now
+.xray_config.json
+
+# Runtime settings not using this now
+dpibypass_settings.json
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+
